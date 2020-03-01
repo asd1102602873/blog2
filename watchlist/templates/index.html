@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<p>{{ ariticles|length }} Titles</p>
+{# 表单 #}
+{% if current_user.is_authenticated %}
+{#<form method="POST">#}
+{#    电影名 <input type="text" name="title" autocomplete="off" required>#}
+{#    年份 <input type="text" name="year" autocomplete="off" required>#}
+{#    <input type="submit" class="btn" name="submit" value="添加">#}
+{#</form>#}
+{% endif %}
+<ul class="movie-list" name="ul">
+    {% for ariticle in ariticles %}
+    <li>
+        {{ ariticle.title }} ---- {{ ariticle.author }} ---- {{ ariticle.pubdate }}
+        <span class="float-right">
+            <a class="vbd"
+                href="{{ url_for('find_content',ariticles_id=ariticle.id) }}"
+                 >查看文章</a>
+        </span>
+        {% if current_user.is_authenticated %}
+        <span class="float-right">
+            <a class="btn" href="{{ url_for('edit',ariticles_id=ariticle.id) }}">编辑</a>
+        </span>
+        <span class="float-right">
+            <form class="inline-form" action="{{ url_for('delete',ariticles_id=ariticle.id) }}" method="post">
+                <input class="btn" type="submit" name='delete' value="删除" onclick="return confirm('确定删除吗？')">
+            </form>
+        </span>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+
+<img class="hulu" src="{{ url_for('static',filename='images/2.jpg') }}" alt="">
+{% endblock %}
