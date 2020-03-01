@@ -100,7 +100,6 @@ def settings():
     return render_template('settings.html')
 
 @app.route('/ariticles/find_content/<int:ariticles_id>',methods=['GET'])
-@login_required
 def find_content(ariticles_id):
     ariticles = Ariticles.query.get_or_404(ariticles_id)
     return render_template('find_content.html', ariticles=ariticles)
